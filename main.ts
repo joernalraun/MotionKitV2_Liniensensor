@@ -1,67 +1,68 @@
-namespace maqueen {
+//% weight=100 color=#6476fd  icon="\uf0e7" block="MotionKit"
+namespace MotionKit {
 
     export enum DistanceUnit {
-        //% blockId=maqueen_DistanceUnitCentimeters block="cm"
+        //% blockId=motionkit_DistanceUnitCentimeters block="cm"
         Centimeters,
     }
 
     export enum Servos {
-        //% blockId="maqueen_ServoS1" block="S1"
+        //% blockId="motionkit_ServoS1" block="S1"
         S1 = 0,
-        //% blockId="maqueen_ServoS2" block="S2"
+        //% blockId="motionkit_ServoS2" block="S2"
         S2 = 1
     }
 
     export enum Motors {
-        //% blockId="maqueen_MotorLeft" block="links"
+        //% blockId="motionkit_MotorLeft" block="links"
         M1 = 0,
-        //% blockId="maqueen_MotorRight" block="rechts"
+        //% blockId="motionkit_MotorRight" block="rechts"
         M2 = 1,
-        //% blockId="maqueen_MotorAll" block="beide"
+        //% blockId="motionkit_MotorAll" block="beide"
         All = 2
     }
 
     export enum Dir {
-        //% blockId="maqueen_DirCW" block="vorwärts"
+        //% blockId="motionkit_DirCW" block="vorwärts"
         CW = 0,
-        //% blockId="maqueen_DirCCW" block="rückwärts"
+        //% blockId="motionkit_DirCCW" block="rückwärts"
         CCW = 1
     }
 
     export enum Led {
-        //% blockId="maqueen_LedLeft" block="links"
+        //% blockId="motionkit_LedLeft" block="links"
         LedLeft = 0,
-        //% blockId="maqueen_LedRight" block="rechts"
+        //% blockId="motionkit_LedRight" block="rechts"
         LedRight = 1,
-        //% blockId="maqueen_LedAll" block="beide"
+        //% blockId="motionkit_LedAll" block="beide"
         LedAll = 2
     }
 
     export enum LedSwitch {
-        //% blockId="maqueen_LedOn" block="AN"
+        //% blockId="motionkit_LedOn" block="AN"
         LedOn = 1,
-        //% blockId="maqueen_LedOff" block="AUS"
+        //% blockId="motionkit_LedOff" block="AUS"
         LedOff = 0
     }
 
     export enum Patrol {
-        //% blockId="maqueen_PatrolLeft" block="links"
+        //% blockId="motionkit_PatrolLeft" block="links"
         PatrolLeft = 0,
-        //% blockId="maqueen_PatrolRight" block="rechts"
+        //% blockId="motionkit_PatrolRight" block="rechts"
         PatrolRight = 1
     }
 
     export enum Brightness {
-        //% blockId="maqueen_Bright" block="hell"
+        //% blockId="motionkit_Bright" block="hell"
         Bright = 0,
-        //% blockId="maqueen_Dark" block="dunkel"
+        //% blockId="motionkit_Dark" block="dunkel"
         Dark = 1
     }
 
     export enum Voltage {
-        //% blockId="maqueen_High" block="high"
+        //% blockId="motionkit_High" block="high"
         High = 1,
-        //% blockId="maqueen_Low"block="low"
+        //% blockId="motionkit_Low"block="low"
         Low = 0
     }
 
@@ -81,7 +82,7 @@ namespace maqueen {
      */
 
     //% weight=95
-    //% blockId=maqueen_ultrasonic block="Ultraschallsensor |%unit "
+    //% blockId=motionkit_ultrasonic block="Ultraschallsensor |%unit "
     export function ultrasonic(unit: DistanceUnit, maxCmDistance = 500): number {
         let integer = readData(0x28, 2);
         let distance = integer[0] << 8 | integer[1];
@@ -89,11 +90,11 @@ namespace maqueen {
     }
 
     /**
-     * Set the Maqueen servos.
+     * Set the MotionKit servos.
      */
 
     //% weight=90
-    //% blockId=maqueen_servoRun block="Servo|%index|Winkel|%angle"
+    //% blockId=motionkit_servoRun block="Servo|%index|Winkel|%angle"
     //% angle.shadow="protractorPicker"
     //% index.fieldEditor="gridpicker" index.fieldOptions.columns=2
     export function servoRun(index: Servos, angle: number): void {
@@ -108,11 +109,11 @@ namespace maqueen {
     }
 
     /**
-     * Set the direction and speed of Maqueen motor.
+     * Set the direction and speed of MotionKit motor.
      */
 
     //% weight=85
-    //% blockId=maqueen_motorRun block="Motor|%index|Richtung|%direction|Tempo|%speed"
+    //% blockId=motionkit_motorRun block="Motor|%index|Richtung|%direction|Tempo|%speed"
     //% speed.min=0 speed.max=255 speed.defl=200
     //% index.fieldEditor="gridpicker" index.fieldOptions.columns=2
     //% direction.fieldEditor="gridpicker" direction.fieldOptions.columns=2
@@ -128,11 +129,11 @@ namespace maqueen {
     }
 
     /**
-     * Stop the Maqueen motor.
+     * Stop the MotionKit motor.
      */
 
     //% weight=80
-    //% blockId=maqueen_motorStop block="Motor |%motors anhalten"
+    //% blockId=motionkit_motorStop block="Motor |%motors anhalten"
     //% motors.fieldEditor="gridpicker" motors.fieldOptions.columns=2 
     export function motorStop(index: Motors): void {
         if (index == Motors.M1) {
@@ -150,7 +151,7 @@ namespace maqueen {
      */
 
     //% weight=75
-    //% blockId=maqueen_writeLED block="LED |%led |%ledswitch"
+    //% blockId=motionkit_writeLED block="LED |%led |%ledswitch"
     //% led.fieldEditor="gridpicker" led.fieldOptions.columns=2 
     //% ledswitch.fieldEditor="gridpicker" ledswitch.fieldOptions.columns=2
     export function writeLED(led: Led, ledswitch: LedSwitch): void {
@@ -165,7 +166,7 @@ namespace maqueen {
     }
 
     //% weight=74
-    //% blockId=maqueen_setColor block="RGB-LED |%color"
+    //% blockId=motionkit_setColor block="RGB-LED |%color"
     //% color.shadow="colorNumberPicker"
     export function setColor(color: number): void {
         writeData([0x18, (color >> 16) & 0xff]);
@@ -174,7 +175,7 @@ namespace maqueen {
     }
 
     //% weight=73
-    //% blockId=maqueen_setRgb block="rot |%red grün |%green blau |%blue"
+    //% blockId=motionkit_setRgb block="rot |%red grün |%green blau |%blue"
     //% red.min=0 red.max=255 red.defl=200
     //% green.min=0 green.max=255 green.defl=200
     //% blue.min=0 blue.max=255 blue.defl=200
@@ -188,7 +189,7 @@ namespace maqueen {
      */
 
     //% weight=70
-    //% blockId=maqueen_readPatrol block="Liniensensor|%patrol|%brightness"
+    //% blockId=motionkit_readPatrol block="Liniensensor|%patrol|%brightness"
     //% patrol.fieldEditor="gridpicker" patrol.fieldOptions.columns=2 
     //% brightness.fieldEditor="gridpicker" brightness.fieldOptions.columns=2
     export function readPatrol(patrol: Patrol, brightness: Brightness): boolean {
@@ -209,7 +210,7 @@ namespace maqueen {
      */
 
     //% weight=65
-    //% blockId=maqueen_getVersion block="Versionsnummer"
+    //% blockId=motionkit_getVersion block="Versionsnummer"
     //% deprecated=true
     export function getVersion(): string {
         let dataLen = readData(0x32, 1)[0];
@@ -226,7 +227,7 @@ namespace maqueen {
      */
 
     //% weight=60
-    //% blockId=maqueen_ltEvent block="an|%value Linienfolger|%vi"
+    //% blockId=motionkit_ltEvent block="an|%value Linienfolger|%vi"
     //% advanced=true
     //% deprecated=true
     export function ltEvent(value: Patrol, vi: Voltage, ltcb: Action) {
@@ -252,11 +253,11 @@ namespace maqueen {
      */
 
     //% weight=55
-    //% blockId=maqueen_irRead block="IR Wert"
+    //% blockId=motionkit_irRead block="IR Wert"
     export function irRead(): number {
-        let buf2 = readData(0x2B, 4);
-        let data2 = buf2[3] | (buf2[2] << 8) | (buf2[1] << 16) | (buf2[0] << 24);
-        return irKeyValueConversion(data2);
+        let buf = readData(0x2B, 4);
+        let data = buf[3] | (buf[2] << 8) | (buf[1] << 16) | (buf[0] << 24);
+        return irKeyValueConversion(data);
     }
 
     /**
@@ -264,7 +265,7 @@ namespace maqueen {
      */
 
     //% weight=50
-    //% blockId=maqueen_irEvent block="Wenn IR empfangen"
+    //% blockId=motionkit_irEvent block="Wenn IR empfangen"
     //% draggableParameters
     //% advanced=true
     export function irEvent(ircb: (message: number) => void) {
@@ -313,19 +314,19 @@ namespace maqueen {
 
     basic.forever(() => {
         if (irFlag == 1) {
-            let buf3 = readData(0x2B, 4);
-            let data3 = buf3[3] | (buf3[2] << 8) | (buf3[1] << 16) | (buf3[0] << 24);
-            if (data3 != 0) {
-                irCallback(irKeyValueConversion(data3));
+            let buf = readData(0x2B, 4);
+            let data = buf[3] | (buf[2] << 8) | (buf[1] << 16) | (buf[0] << 24);
+            if (data != 0) {
+                irCallback(irKeyValueConversion(data));
             }
         }
         if (ltFlag == 1) {
-            let data4 = readData(0x1D, 1)[0];
+            let data = readData(0x1D, 1)[0];
             switch (ltStatus) {
-                case 0x11: if (data4 & 0x01) { ltCallback(); break }
-                case 0x12: if (!(data4 & 0x01)) { ltCallback(); break }
-                case 0x13: if (data4 & 0x02) { ltCallback(); break }
-                case 0x14: if (!(data4 & 0x02)) { ltCallback(); break }
+                case 0x11: if (data & 0x01) { ltCallback(); break }
+                case 0x12: if (!(data & 0x01)) { ltCallback(); break }
+                case 0x13: if (data & 0x02) { ltCallback(); break }
+                case 0x14: if (!(data & 0x02)) { ltCallback(); break }
             }
         }
         basic.pause(100);
