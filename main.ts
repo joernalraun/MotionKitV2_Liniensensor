@@ -1,4 +1,3 @@
-//% weight=100 color=#6476fd  icon="\uf0e7" block="MotionKit"
 namespace MotionKit {
 
     export enum DistanceUnit {
@@ -189,7 +188,7 @@ namespace MotionKit {
      */
 
     //% weight=70
-    //% blockId=motionkit_readPatrol block="Liniensensor|%patrol|%brightness"
+    //% blockId=motionkit_readPatrol block="Helligkeitssensor unten|%patrol|%brightness"
     //% patrol.fieldEditor="gridpicker" patrol.fieldOptions.columns=2 
     //% brightness.fieldEditor="gridpicker" brightness.fieldOptions.columns=2
     export function readPatrol(patrol: Patrol, brightness: Brightness): boolean {
@@ -255,9 +254,9 @@ namespace MotionKit {
     //% weight=55
     //% blockId=motionkit_irRead block="IR Wert"
     export function irRead(): number {
-        let buf = readData(0x2B, 4);
-        let data = buf[3] | (buf[2] << 8) | (buf[1] << 16) | (buf[0] << 24);
-        return irKeyValueConversion(data);
+        let buf2 = readData(0x2B, 4);
+        let data2 = buf2[3] | (buf2[2] << 8) | (buf2[1] << 16) | (buf2[0] << 24);
+        return irKeyValueConversion(data2);
     }
 
     /**
@@ -314,19 +313,19 @@ namespace MotionKit {
 
     basic.forever(() => {
         if (irFlag == 1) {
-            let buf = readData(0x2B, 4);
-            let data = buf[3] | (buf[2] << 8) | (buf[1] << 16) | (buf[0] << 24);
-            if (data != 0) {
-                irCallback(irKeyValueConversion(data));
+            let buf3 = readData(0x2B, 4);
+            let data3 = buf3[3] | (buf3[2] << 8) | (buf3[1] << 16) | (buf3[0] << 24);
+            if (data3 != 0) {
+                irCallback(irKeyValueConversion(data3));
             }
         }
         if (ltFlag == 1) {
-            let data = readData(0x1D, 1)[0];
+            let data4 = readData(0x1D, 1)[0];
             switch (ltStatus) {
-                case 0x11: if (data & 0x01) { ltCallback(); break }
-                case 0x12: if (!(data & 0x01)) { ltCallback(); break }
-                case 0x13: if (data & 0x02) { ltCallback(); break }
-                case 0x14: if (!(data & 0x02)) { ltCallback(); break }
+                case 0x11: if (data4 & 0x01) { ltCallback(); break }
+                case 0x12: if (!(data4 & 0x01)) { ltCallback(); break }
+                case 0x13: if (data4 & 0x02) { ltCallback(); break }
+                case 0x14: if (!(data4 & 0x02)) { ltCallback(); break }
             }
         }
         basic.pause(100);
