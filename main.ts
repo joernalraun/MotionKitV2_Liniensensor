@@ -191,7 +191,7 @@ namespace MotionKit {
      */
 
     //% weight=70
-    //% blockId=MotionKit_readPatrol block="Liniensensor|%patrol|%brightness"
+    //% blockId=MotionKit_readPatrol block="Liniensensor %patrol %brightness"
     //% patrol.fieldEditor="gridpicker" patrol.fieldOptions.columns=2 
     //% brightness.fieldEditor="gridpicker" brightness.fieldOptions.columns=2
     export function readPatrol(patrol: Patrol, brightness: Brightness): boolean {
