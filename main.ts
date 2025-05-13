@@ -1,23 +1,24 @@
+//% weight=100 color=#6476fd  icon="\uf0e7" block="MotionKit"
 namespace MotionKit {
 
     export enum DistanceUnit {
-        //% blockId=motionkit_DistanceUnitCentimeters block="cm"
+        //% blockId=MotionKit_DistanceUnitCentimeters block="cm"
         Centimeters,
     }
 
     export enum Servos {
-        //% blockId="motionkit_ServoS1" block="S1"
+        //% blockId="MotionKit_ServoS1" block="S1"
         S1 = 0,
-        //% blockId="motionkit_ServoS2" block="S2"
+        //% blockId="MotionKit_ServoS2" block="S2"
         S2 = 1
     }
 
     export enum Motors {
-        //% blockId="motionkit_MotorLeft" block="links"
+        //% blockId="MotionKit_MotorLeft" block="links"
         M1 = 0,
-        //% blockId="motionkit_MotorRight" block="rechts"
+        //% blockId="MotionKit_MotorRight" block="rechts"
         M2 = 1,
-        //% blockId="motionkit_MotorAll" block="beide"
+        //% blockId="MotionKit_MotorAll" block="beide"
         All = 2
     }
 
@@ -47,25 +48,25 @@ namespace MotionKit {
     export enum Patrol {
         //% blockId="motionkit_PatrolLeft" block="links"
         PatrolLeft = 0,
-        //% blockId="motionkit_PatrolRight" block="rechts"
+        //% blockId="MotionKit_PatrolRight" block="rechts"
         PatrolRight = 1
     }
 
     export enum Brightness {
-        //% blockId="motionkit_Bright" block="hell"
+        //% blockId="MotionKit_Bright" block="hell"
         Bright = 0,
-        //% blockId="motionkit_Dark" block="dunkel"
+        //% blockId="MotionKit_Dark" block="dunkel"
         Dark = 1
     }
 
     export enum Voltage {
-        //% blockId="motionkit_High" block="high"
+        //% blockId="MotionKit_High" block="high"
         High = 1,
-        //% blockId="motionkit_Low"block="low"
+        //% blockId="MotionKit_Low"block="low"
         Low = 0
     }
 
-
+    
     const IICADRRESS = 0x10;
 
     let irFlag = 0;
@@ -75,17 +76,19 @@ namespace MotionKit {
     let irCallback: (message: number) => void = null;
     let ltCallback: Action = null;
 
-
     /**
      * Read ultrasonic sensor.
      */
-
     //% weight=95
-    //% blockId=motionkit_ultrasonic block="Ultraschallsensor |%unit "
+    //% blockId=MotionKit_ultrasonic block="Ultraschallsensor |%unit "
     export function ultrasonic(unit: DistanceUnit, maxCmDistance = 500): number {
-        let integer = readData(0x28, 2);
-        let distance = integer[0] << 8 | integer[1];
-        return (distance > 399 || distance < 1) ? -1 : distance;
+    let integer = readData(0x28, 2);
+    let distance = integer[0] << 8 | integer[1];
+    let nothingVariable;
+    if (distance > 399 || distance < 1) {
+    return nothingVariable; // Returns ? if distance is invalid
+    }
+    return distance;
     }
 
     /**
@@ -93,7 +96,7 @@ namespace MotionKit {
      */
 
     //% weight=90
-    //% blockId=motionkit_servoRun block="Servo|%index|Winkel|%angle"
+    //% blockId=MotionKit_servoRun block="Servo|%index|Winkel|%angle"
     //% angle.shadow="protractorPicker"
     //% index.fieldEditor="gridpicker" index.fieldOptions.columns=2
     export function servoRun(index: Servos, angle: number): void {
@@ -112,12 +115,12 @@ namespace MotionKit {
      */
 
     //% weight=85
-    //% blockId=motionkit_motorRun block="Motor|%index|Richtung|%direction|Tempo|%speed"
+    //% blockId=MotionKit_motorRun block="Motor|%index|Richtung|%direction|Tempo|%speed"
     //% speed.min=0 speed.max=255 speed.defl=200
     //% index.fieldEditor="gridpicker" index.fieldOptions.columns=2
     //% direction.fieldEditor="gridpicker" direction.fieldOptions.columns=2
     export function motorRun(index: Motors, direction: Dir, speed: number): void {
-        if (index == Motors.M1) {
+        if (index == Motors.M1){
             writeData([0x00, direction, speed]);
         } else if (index == Motors.M2) {
             writeData([0x02, direction, speed]);
@@ -132,7 +135,7 @@ namespace MotionKit {
      */
 
     //% weight=80
-    //% blockId=motionkit_motorStop block="Motor |%motors anhalten"
+    //% blockId=MotionKit_motorStop block="Motor |%motors anhalten"
     //% motors.fieldEditor="gridpicker" motors.fieldOptions.columns=2 
     export function motorStop(index: Motors): void {
         if (index == Motors.M1) {
@@ -150,7 +153,7 @@ namespace MotionKit {
      */
 
     //% weight=75
-    //% blockId=motionkit_writeLED block="LED |%led |%ledswitch"
+    //% blockId=MotionKit_writeLED block="LED |%led |%ledswitch"
     //% led.fieldEditor="gridpicker" led.fieldOptions.columns=2 
     //% ledswitch.fieldEditor="gridpicker" ledswitch.fieldOptions.columns=2
     export function writeLED(led: Led, ledswitch: LedSwitch): void {
@@ -165,16 +168,16 @@ namespace MotionKit {
     }
 
     //% weight=74
-    //% blockId=motionkit_setColor block="RGB-LED |%color"
+    //% blockId=MotionKit_setColor block="RGB-LED |%color"
     //% color.shadow="colorNumberPicker"
     export function setColor(color: number): void {
-        writeData([0x18, (color >> 16) & 0xff]);
+        writeData([0x18, (color >> 16) & 0xff ]);
         writeData([0x19, (color >> 8) & 0xff]);
         writeData([0x1A, color & 0xff]);
     }
 
     //% weight=73
-    //% blockId=motionkit_setRgb block="rot |%red grün |%green blau |%blue"
+    //% blockId=MotionKit_setRgb block="rot |%red grün |%green blau |%blue"
     //% red.min=0 red.max=255 red.defl=200
     //% green.min=0 green.max=255 green.defl=200
     //% blue.min=0 blue.max=255 blue.defl=200
@@ -188,19 +191,19 @@ namespace MotionKit {
      */
 
     //% weight=70
-    //% blockId=motionkit_readPatrol block="Helligkeitssensor (Boden)|%patrol|%brightness"
+    //% blockId=MotionKit_readPatrol block="Liniensensor|%patrol|%brightness"
     //% patrol.fieldEditor="gridpicker" patrol.fieldOptions.columns=2 
     //% brightness.fieldEditor="gridpicker" brightness.fieldOptions.columns=2
     export function readPatrol(patrol: Patrol, brightness: Brightness): boolean {
         let data = readData(0x1D, 1)[0];
         let sensorValue = 0;
-
+        
         if (patrol == Patrol.PatrolLeft) {
             sensorValue = (data & 0x01) === 0 ? 0 : 1;
         } else if (patrol == Patrol.PatrolRight) {
             sensorValue = (data & 0x02) === 0 ? 0 : 1;
         }
-
+        
         return brightness == Brightness.Bright ? sensorValue == 0 : sensorValue == 1;
     }
 
@@ -209,7 +212,7 @@ namespace MotionKit {
      */
 
     //% weight=65
-    //% blockId=motionkit_getVersion block="Versionsnummer"
+    //% blockId=MotionKit_getVersion block="Versionsnummer"
     //% deprecated=true
     export function getVersion(): string {
         let dataLen = readData(0x32, 1)[0];
@@ -226,13 +229,13 @@ namespace MotionKit {
      */
 
     //% weight=60
-    //% blockId=motionkit_ltEvent block="an|%value Linienfolger|%vi"
+    //% blockId=MotionKit_ltEvent block="an|%value Linienfolger|%vi"
     //% advanced=true
     //% deprecated=true
     export function ltEvent(value: Patrol, vi: Voltage, ltcb: Action) {
         ltFlag = 1;
         ltCallback = ltcb;
-        if (value == Patrol.PatrolLeft) {
+        if (value == Patrol.PatrolLeft){
             if (vi == Voltage.High) {
                 ltStatus = 0x11;
             } else {
@@ -244,7 +247,7 @@ namespace MotionKit {
             } else {
                 ltStatus = 0x14;
             }
-        }
+        } 
     }
 
     /**
@@ -252,11 +255,11 @@ namespace MotionKit {
      */
 
     //% weight=55
-    //% blockId=motionkit_irRead block="IR Wert"
+    //% blockId=MotionKit_irRead block="IR Wert"
     export function irRead(): number {
-        let buf2 = readData(0x2B, 4);
-        let data2 = buf2[3] | (buf2[2] << 8) | (buf2[1] << 16) | (buf2[0] << 24);
-        return irKeyValueConversion(data2);
+        let buf = readData(0x2B, 4);
+        let data = buf[3] | (buf[2] << 8) | (buf[1] << 16) | (buf[0] << 24);
+        return irKeyValueConversion(data);
     }
 
     /**
@@ -264,7 +267,7 @@ namespace MotionKit {
      */
 
     //% weight=50
-    //% blockId=motionkit_irEvent block="Wenn IR empfangen"
+    //% blockId=MotionKit_irEvent block="Wenn IR empfangen"
     //% draggableParameters
     //% advanced=true
     export function irEvent(ircb: (message: number) => void) {
@@ -272,7 +275,7 @@ namespace MotionKit {
         irCallback = ircb;
     }
 
-    function readData(reg: number, len: number): Buffer {
+    function readData(reg: number, len: number): Buffer{
         pins.i2cWriteNumber(IICADRRESS, reg, NumberFormat.UInt8BE);
         return pins.i2cReadBuffer(IICADRRESS, len, false);
     }
@@ -313,19 +316,19 @@ namespace MotionKit {
 
     basic.forever(() => {
         if (irFlag == 1) {
-            let buf3 = readData(0x2B, 4);
-            let data3 = buf3[3] | (buf3[2] << 8) | (buf3[1] << 16) | (buf3[0] << 24);
-            if (data3 != 0) {
-                irCallback(irKeyValueConversion(data3));
+            let buf = readData(0x2B, 4);
+            let data = buf[3] | (buf[2] << 8) | (buf[1] << 16) | (buf[0] << 24);
+            if (data != 0){
+                irCallback(irKeyValueConversion(data));
             }
         }
         if (ltFlag == 1) {
-            let data4 = readData(0x1D, 1)[0];
-            switch (ltStatus) {
-                case 0x11: if (data4 & 0x01) { ltCallback(); break }
-                case 0x12: if (!(data4 & 0x01)) { ltCallback(); break }
-                case 0x13: if (data4 & 0x02) { ltCallback(); break }
-                case 0x14: if (!(data4 & 0x02)) { ltCallback(); break }
+            let data = readData(0x1D, 1)[0];
+            switch(ltStatus) {
+                case 0x11: if(data & 0x01) { ltCallback();break }
+                case 0x12: if(!(data & 0x01)) { ltCallback(); break }
+                case 0x13: if (data & 0x02) { ltCallback(); break }
+                case 0x14: if (!(data & 0x02)) { ltCallback(); break }
             }
         }
         basic.pause(100);
